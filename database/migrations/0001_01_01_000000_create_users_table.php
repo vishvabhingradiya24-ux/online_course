@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('mobileno')->nullable();
+            $table->timestamp('email_verified_at')->nullable(); // આ લાઈન હોવી જોઈએ
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->integer('status')->default(0)->comment('0:pending, 1:active');
             $table->string('password');
+            $table->string('user_type')->comment('1.student / 2.admin / 3.teacher')->default('student');
             $table->rememberToken();
             $table->timestamps();
         });

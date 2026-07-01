@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -20,8 +21,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'mobileno',
         'email',
         'password',
+        'user_type'
     ];
 
     /**
@@ -46,4 +49,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function studentDetails()
+    {
+        return $this->hasMany(Enrollment::class, 'student_id');
+    }
+    public function submissions(): HasMany
+    {
+        return $this->hasMany(AssignmentSubmission::class, 'student_id');
+    }
+
+     public function courses()
+    {
+        return $this->hasMany(Course::class, 'teacher_id');
+    }
+
 }
